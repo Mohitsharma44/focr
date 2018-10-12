@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request, redirect, url_for,render_template, jsonify, make_response, abort, send_file,flash
 from werkzeug.utils import secure_filename
-from werkzeug.contrib.fixers import ProxyFix
 from flask import send_from_directory
 from extract import extract
 import glob
@@ -220,7 +219,7 @@ def visualize(filename):
         #print(fout)
 
         time.sleep(10)
-        return redirect(url_for('view', filename=fout))
+        return redirect(url_for('view', _scheme='https', external=True, filename=fout))
     except:
         return redirect(url_for('upload_file', error="There is an error in the process, please try again"))
     finally:
