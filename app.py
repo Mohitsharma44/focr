@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, redirect, url_for,render_template, jsonify, make_response, abort, send_file,flash
 from werkzeug.utils import secure_filename
+from werkzeug.contrib.fixers import ProxyFix
 from flask import send_from_directory
 from extract import extract
 import glob
@@ -26,6 +27,7 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['zip'])
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -218,9 +220,9 @@ def visualize(filename):
         #print(fout)
 
         time.sleep(10)
-        return redirect(url_for('view', _scheme='https', _external=True, filename=fout))
+        return redirect(url_for('view', filename=fout))
     except:
-        return redirect(url_for('upload_file', _scheme='https', _external=True, error="There is an error in the process, please try again"))
+        return redirect(url_for('upload_file', error="There is an error in the process, please try again"))
     finally:
         # -- explicitly get the ref count of large numpy arrays to zero
         del rast, gt, img, rgb, grayw, phrag, df, x, s1, s2, s3, ndvi
