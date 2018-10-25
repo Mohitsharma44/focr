@@ -82,11 +82,11 @@ def upload_file():
             files.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     
             if (request.form['action'] == 'Process'):
-                return redirect(url_for('loading_file', _scheme='https', external=True,
+                return redirect(url_for('loading_file', _scheme='https', _external=True,
                                         filename=filename.split(".")[0],
                                         route="done"))
             elif request.form['action'] == 'Visualize':
-                return redirect(url_for('visualize_file', _scheme='https', external=True,
+                return redirect(url_for('visualize_file', _scheme='https', _external=True,
                                         filename=filename.split(".")[0]))
             else:
                 error = "Filename format is incorrect."
@@ -219,7 +219,7 @@ def visualize(filename):
         #print(fout)
 
         time.sleep(10)
-        return redirect(url_for('view', _scheme='https', external=True, filename=fout))
+        return redirect(url_for('view', _scheme='https', _external=True, filename=fout))
     except:
         return redirect(url_for('upload_file', error="There is an error in the process, please try again"))
     finally:
