@@ -98,7 +98,7 @@ def upload_file():
 @app.route('/visualize_file/<filename>')
 def visualize_file(filename):
     extract(os.path.join(app.config['UPLOAD_FOLDER'], filename+".zip"), "tmp")
-    return redirect(url_for('loading_file', filename=filename+".TIF", route="visualize"))
+    return redirect(url_for('loading_file', _scheme='https', _external=True, filename=filename+".TIF", route="visualize"))
 
 @app.route('/process/<route>/<filename>')
 def loading_file(filename,route):
