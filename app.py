@@ -26,7 +26,7 @@ UPLOAD_FOLDER = 'tmp'
 ALLOWED_EXTENSIONS = set(['zip'])
 
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app)
+#app.wsgi_app = ProxyFix(app.wsgi_app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -82,11 +82,11 @@ def upload_file():
             files.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     
             if (request.form['action'] == 'Process'):
-                return redirect(url_for('loading_file',
+                return redirect(url_for('loading_file', _scheme='https', external=True,
                                         filename=filename.split(".")[0],
                                         route="done"))
             elif request.form['action'] == 'Visualize':
-                return redirect(url_for('visualize_file',
+                return redirect(url_for('visualize_file', _scheme='https', external=True,
                                         filename=filename.split(".")[0]))
             else:
                 error = "Filename format is incorrect."
